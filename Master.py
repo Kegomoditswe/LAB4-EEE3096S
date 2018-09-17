@@ -62,9 +62,7 @@ def timer_string():
     timer_str = timer_str + str(pstr)
 
     return timer_str
-    
-    
-
+  
 def data_print():
 
     #tstring = time_string()
@@ -95,11 +93,8 @@ def time_string():
     tstring = "%02d:%02d:%02d"%(h,m,s)
 
     time_str = str(tstring)
-    
-
     return time_str
     
-
 # reset callback
 def my_callback(push1):
     
@@ -117,8 +112,7 @@ def my_callback1(push2):
     print("Stop switch pressed")
     global play
     play = not play
-    
-
+   
 def my_callback2(push2): # frequency
     print("frequency button")
     global count
@@ -137,8 +131,6 @@ def my_callback2(push2): # frequency
 
     elif count ==3:
         frequ = 2
-
-
 
 def my_callback3(push4): # display switch
     # check if stop swich was pressed
@@ -184,9 +176,7 @@ def main():
     print("Time          Timer         Pot       Temp      Light")
     print("-------------------------------------------------------")
     
-    while (True):
-
-        
+    while (True):     
         while (play):
             global dataArray
             global i
