@@ -22,7 +22,7 @@ def GetData(channel):
     data = ((adc[1]&3)<<8)+adc[2]
     return data
 
-#get voltage reading form the ADC
+# function that converts voltage reading form the ADC
 def ConvertVolts(data,places):
     volts = (data*3.3)/float(1023)
     volts = round(volts,places)
@@ -95,9 +95,8 @@ def time_string():
     time_str = str(tstring)
     return time_str
     
-# reset callback
+# reset callback function
 def my_callback(push1):
-    
     print("reset1")
     
     #set timer to zero
@@ -108,18 +107,19 @@ def my_callback(push1):
     print("\n"*40)
 
 #pause/play callback
+#stop/play function
 def my_callback1(push2): 
     print("Stop switch pressed")
     global play
     play = not play
-   
+    
+ #function that changes the speed at which the data is being displayed  
 def my_callback2(push2): # frequency
     print("frequency button")
     global count
     global frequ
     print(frequ)
     count+=1
-    
     if count > 3:
         count = 1
 
@@ -132,11 +132,13 @@ def my_callback2(push2): # frequency
     elif count ==3:
         frequ = 2
 
-def my_callback3(push4): # display switch
+# display function. Shows the 5 latest readings 
+def my_callback3(push4): 
     # check if stop swich was pressed
     global dataArray
     k = -1
-    for t in range(0,5):
+    num = 5
+    while (num):
         global dataArray
         global i
         time_str = time_string()
@@ -148,6 +150,7 @@ def my_callback3(push4): # display switch
         print("{time_str}     {timer_str}      {info} ".format(time_str=time_str,timer_str=timer_str , info = info))
         time.sleep(frequ)
         k -=1
+        num -=1
 
 def main():
 
@@ -162,12 +165,14 @@ def main():
     push2 = 3
     push3 = 4
     push4 = 21
-
+    
+    #setup the GPIOs as inputs with internal pull up resisters
     GPIO.setup(push1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(push2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(push3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(push4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     
+    #set the call back functions
     GPIO.add_event_detect(push1, GPIO.FALLING, callback=my_callback, bouncetime=500) 
     GPIO.add_event_detect(push2, GPIO.FALLING, callback=my_callback1, bouncetime=500)
     GPIO.add_event_detect(push3, GPIO.FALLING, callback=my_callback2, bouncetime=500)
